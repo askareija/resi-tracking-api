@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Add some fields to users table
 class AddNameToUsers < ActiveRecord::Migration[6.0]
   def change
     add_column :users, :first_name, :string, null: false

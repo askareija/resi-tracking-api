@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Create Track Histories table
 class CreateTrackHistories < ActiveRecord::Migration[6.0]
   def change
     create_table :track_histories do |t|
