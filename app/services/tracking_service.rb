@@ -15,6 +15,9 @@ class TrackingService
     res = Net::HTTP.post_form(uri, 'resi' => @no_resi, 'cek' => '', 'jasa' => @expedition_type.delete("\n"))
     doc = Nokogiri::HTML(res.body)
 
+    # Sample Resi
+    # 020530015708819
+
     info = OpenStruct.new
 
     # Parsing general information
