@@ -23,7 +23,7 @@ class TrackingService
     # Parsing general information
     table_info = doc.search('div .table-striped')
     if table_info.empty?
-      return false
+      return nil
     else
       info.no_resi = table_info.first.search('tr')[0].search('td')[2].try(:text)
       info.status = table_info.first.search('tr')[1].search('td')[2].try(:text)
