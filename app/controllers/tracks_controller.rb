@@ -11,4 +11,8 @@ class TracksController < ApplicationController
 
     render json: track.to_json
   end
+
+  def history
+    render json: @current_user.track_histories.to_json
+  end
 end
