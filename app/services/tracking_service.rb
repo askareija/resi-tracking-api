@@ -5,9 +5,11 @@ class TrackingService
     new(*args, &block).execute
   end
 
-  def initialize(no_resi, expedition_type)
+  def initialize(no_resi, expedition_type, user)
     @no_resi = no_resi
     @expedition_type = expedition_type
+    @user = user
+    @track_history = TrackHistory.new(noresi: @no_resi, expedition_type: @expedition_type, user: @user)
   end
 
   def execute
@@ -23,6 +25,9 @@ class TrackingService
     # Parsing general information
     table_info = doc.search('div .table-striped')
     if table_info.empty?
+      @track_history.status = 'NOT FOUND'
+      @track_history.save
+      
       return nil
     else
       info.no_resi = table_info.first.search('tr')[0].search('td')[2].try(:text)
@@ -44,6 +49,8 @@ class TrackingService
         info.details[i] = detail
       end
 
+      @track_history.status = info.status
+      @track_history.save
       return info
     end
   end
