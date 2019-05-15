@@ -15,12 +15,15 @@ class TrackingService
     res = Net::HTTP.post_form(uri, 'resi' => @no_resi, 'cek' => '', 'jasa' => @expedition_type.delete("\n"))
     doc = Nokogiri::HTML(res.body)
 
+    # Sample Resi
+    # 020530015708819
+
     info = OpenStruct.new
 
     # Parsing general information
     table_info = doc.search('div .table-striped')
     if table_info.empty?
-      return false
+      return nil
     else
       info.no_resi = table_info.first.search('tr')[0].search('td')[2].try(:text)
       info.status = table_info.first.search('tr')[1].search('td')[2].try(:text)
