@@ -38,6 +38,5 @@ module ExpeditionTracker
     config.api_only = true
 
     config.time_zone = 'Asia/Jakarta'
-    config.eager_load_paths << "#{Rails.root}/lib"
   end
 end
