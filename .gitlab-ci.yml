@@ -30,6 +30,8 @@ rspec:
     DATABASE_URL: 'postgresql://postgres:postgres@postgres:5432/$POSTGRES_DB'
   script:
     - bundle exec rspec spec
+  only:
+    - master
 
 rails:
   variables:
@@ -37,6 +39,8 @@ rails:
   script:
     - bundle exec rails db:migrate
     - bundle exec rails db:seed
+  only:
+    - master
 
 # This deploy job uses a simple deploy flow to Heroku, other providers, e.g. AWS Elastic Beanstalk
 # are supported too: https://github.com/travis-ci/dpl
@@ -46,3 +50,5 @@ deploy:
   script:
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_PRODUCTION_KEY
+  only:
+    - master
