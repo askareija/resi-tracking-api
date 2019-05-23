@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-
   protected
+
   # Validates the token and user and sets the @current_user scope
   def authenticate_request!
-    if !payload || !JsonWebToken.valid_payload(payload.first)
-      return invalid_authentication
-    end
+    return invalid_authentication if !payload || !JsonWebToken.valid_payload(payload.first)
 
     load_current_user!
     invalid_authentication unless @current_user
@@ -15,16 +13,17 @@ class ApplicationController < ActionController::API
 
   # Returns 401 response. To handle malformed / invalid requests.
   def invalid_authentication
-    render json: {error: 'Invalid Request'}, status: :unauthorized
+    render json: { error: 'Invalid Request' }, status: :unauthorized
   end
 
   private
+
   # Deconstructs the Authorization header and decodes the JWT token.
   def payload
     auth_header = request.headers['Authorization']
     token = auth_header.split(' ').last
     JsonWebToken.decode(token)
-  rescue
+  rescue StandardError
     nil
   end
 
