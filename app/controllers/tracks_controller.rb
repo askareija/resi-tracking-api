@@ -9,10 +9,19 @@ class TracksController < ApplicationController
 
     track = TrackingService.track(params[:no_resi], params[:expedition_type], @current_user)
 
-    render json: track.to_json
+    if track.nil?
+      render json: {message: 'receipt not found'}, status: :not_found
+    else
+      render json: track.to_json
+    end
+  end
+
+  def histories
+    # render json: @current_user.track_histories.to_json
+    render json: TrackHistory.where(user_id: 1).to_json
   end
 
   def history
-    render json: @current_user.track_histories.to_json
+    render json: @current_user.track_histories.where(id: params[:id]).first.to_json
   end
 end

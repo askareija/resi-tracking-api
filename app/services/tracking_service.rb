@@ -31,19 +31,19 @@ class TrackingService
       receipt[:status] = table_info.first.search('tr')[1].search('td')[2].try(:text)
       receipt[:expedition_type] = table_info.first.search('tr')[2].search('td')[2].try(:text)
       receipt[:date] = table_info.first.search('tr')[3].search('td')[2].try(:text)
-      receipt[:sender] = table_info.first.search('tr')[4].search('td')[2].try(:text)
-      receipt[:origin] = table_info.first.search('tr')[5].search('td')[2].try(:text)
-      receipt[:recipient] = table_info.first.search('tr')[6].search('td')[2].try(:text)
-      receipt[:recipient_address] = table_info.first.search('tr')[7].search('td')[2].try(:text)
+      receipt[:sender] = (table_info.first.search('tr')[4].search('td')[2].try(:text) rescue nil)
+      receipt[:origin] = (table_info.first.search('tr')[5].search('td')[2].try(:text) rescue nil)
+      receipt[:recipient] = (table_info.first.search('tr')[6].search('td')[2].try(:text) rescue nil)
+      receipt[:recipient_address] = (table_info.first.search('tr')[7].search('td')[2].try(:text) rescue nil)
 
-      receipt[:details] = ({})
+      receipt[:details] = []
       doc.search('table tbody').first.search('tr').each_with_index do |row, i|
         detail = {}
         detail[:date] = Time.zone.parse(row.search('td')[0].try(:text))
         detail[:city] = row.search('td')[1].try(:text)
         detail[:description] = row.search('td')[2].try(:text)
 
-        receipt[:details][i] = detail
+        receipt[:details] << detail
       end
 
       @track_history.status = receipt[:status]
