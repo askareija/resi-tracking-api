@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TracksController < ApplicationController
-  before_action :authenticate_request!
+  # before_action :authenticate_request!
 
   def index
     return render json: { message: 'no_resi is missing' }, status: :bad_request if params[:no_resi].nil? || params[:no_resi].empty?
